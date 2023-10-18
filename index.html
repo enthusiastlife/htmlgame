@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Guessing Game</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://www.openai.com/assets/chatGPT/jquery.easyui.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://www.openai.com/assets/chatGPT/easyui.css">
+</head>
+<body>
+  <h1>Guessing Game</h1>
+  
+  <div>
+    <button onclick="startGame()">Start Game</button>
+  </div>
+  
+  <div id="gameArea" style="display:none">
+    <br>
+    <span id="attemptsLeft"></span>
+    <br>
+    <input id="guessInput" type="number" min="1" max="10">
+    <button onclick="guessNumber()">Guess</button>
+    <br>
+    <div id="result"></div>
+  </div>
+  
+  <script>
+    // Your JavaScript code here
+    var secretNumber;
+var attempts;
+
+function startGame() {
+  secretNumber = randomNumber(1, 10);
+  attempts = 3;
+  setText("attemptsLeft", "Attempts left: " + attempts);
+  setText("result", "");
+  showElement("guessInput");
+  showElement("guessButton");
+}
+
+function guessNumber() {
+  var userGuess = getNumber("guessInput");
+  
+  if (userGuess === secretNumber) {
+    setText("result", "Congratulations! You guessed the number.");
+    hideElement("guessInput");
+    hideElement("guessButton");
+  } else {
+    attempts--;
+    setText("attemptsLeft", "Attempts left: " + attempts);
+    if (attempts === 0) {
+      setText("result", "Sorry, you're out of attempts. The number was: " + secretNumber);
+      hideElement("guessInput");
+      hideElement("guessButton");
+    } else if (userGuess < secretNumber) {
+      setText("result", "Too low! Try again.");
+    } else {
+      setText("result", "Too high! Try again.");
+    }
+  }
+}
+
+  </script>
+</body>
+</html>
